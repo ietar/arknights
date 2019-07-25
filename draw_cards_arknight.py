@@ -4,7 +4,7 @@
 # 也可以draw()其他次数 但只有10次时触发保底
 # 很明显 还有其他功能正在写
 # v2.0 模块化 加入了标准池子STANDARD_POOL(无up, 包含限定干员) 自定义up池 池子检查等功能
-# author: ietar
+# v2.1 紧急修复了6星出率过高的bug(由10连保底机制产生)
 
 import random
 
@@ -37,7 +37,6 @@ def makepool():
     for i in Official3:
         addo(name=i, stars=3)
 
-
     return pool
 
 
@@ -62,7 +61,6 @@ def checkpool(pool):
     return 1
     
 
-    
 def set_uprate(pool, name, uprate):
     '''自定义池子 修改干员up率 重复调用可修改多个 注意每个星级up率之和不能超过1'''
 
@@ -262,7 +260,7 @@ def draw(times=1, pool=STADNARD_POOL):
 
     
     # 保底考虑直接重抽10次 只在10连抽时触发 
-    if times==10 and not (count6 + count5):
+    if times==10 and not (count6 + count5 + count4):
         # print("保底机制使您免收紫气东来困扰 1次")
         return draw(10, pool)
     return res
