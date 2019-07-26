@@ -169,14 +169,14 @@ Official((str)name, (int)stars, uprate=0[, (int)otype])'''
 
 
 
-STADNARD_POOL = makepool()
+STANDARD_POOL = makepool()
 
 
-def draw10(pool=STADNARD_POOL):
+def draw10(pool=STANDARD_POOL):
     return draw(10, pool)
 
 
-def draw(times=1, pool=STADNARD_POOL):
+def draw(times=1, pool=STANDARD_POOL):
     pool6 = {}
     pool5 = {}
     pool4 = {}
@@ -280,7 +280,7 @@ if __name__ == '__main__':
             print("亲亲建议您输入0-1000的数量呢(呕)")
             continue
         print('\n')
-        print(draw(numbers,STADNARD_POOL),'\n')
+        print(draw(numbers,STANDARD_POOL),'\n')
     pass
 
 
