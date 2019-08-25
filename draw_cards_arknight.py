@@ -189,7 +189,7 @@ class Draw(object):
         pool3 = {}
         temp6 = 0
         temp5 = 0
-        rate = {6: 0.02, 5: 0.08, 4: 0.4, 3: 0.5, 2: 0, 1: 0}
+        rate = {6: 0.02, 5: 0.08, 4: 0.5, 3: 0.4, 2: 0, 1: 0}
         count6, count5, count4, count3 = 0, 0, 0, 0
         # 分别对应6, 5, 4, 3星 干员出货数量
         ratemax6, ratemax5, ratemax4, ratemax3 = 1, 1, 1, 1
