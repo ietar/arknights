@@ -71,7 +71,6 @@ def set_uprate(pool, name, uprate):
 
     if uprate > 1 or uprate < 0:
         raise ValueError('up率必须在0-1之间!')
-    current = {3: 0, 4: 0, 5: 0, 6: 0}
     stars = 0
     flag = 0
     temp = None
@@ -87,21 +86,10 @@ def set_uprate(pool, name, uprate):
 
     assert stars != 0
 
-    for i in pool:
-        if i.stars == 6:
-            current[6] += i.uprate
-        if i.stars == 5:
-            current[5] += i.uprate
-        if i.stars == 4:
-            current[4] += i.uprate
-        if i.stars == 3:
-            current[3] += i.uprate
-
-    after_update = uprate - temp.uprate + current[stars]
-    if after_update > 1:
+    if not checkpool(pool):
         raise ValueError('up率设置过高, 当前{}星up率之和为{}'.format(stars, current[stars]))
-
-    temp.uprate = uprate
+    else:
+        temp.uprate = uprate
 
 
 class Official(object):
