@@ -67,7 +67,10 @@ def checkpool(pool):
 
 
 def set_uprate(pool, name, uprate):
-    """自定义池子 修改干员up率 重复调用可修改多个 注意每个星级up率之和不能超过1"""
+    """
+    自定义池子 修改干员up率 重复调用可修改多个 注意每个星级up率之和不能超过1
+    成功修改返回1 否则返回-1
+    """
 
     if uprate > 1 or uprate < 0:
         raise ValueError('up率必须在0-1之间!')
@@ -82,14 +85,17 @@ def set_uprate(pool, name, uprate):
             break
 
     if not flag:
-        raise ValueError('池子中找不到该干员,无法修改up率!')
+        print('池子中找不到该干员,无法修改up率!')
+        return -1
 
     assert stars != 0
 
     if not checkpool(pool):
-        raise ValueError('up率设置过高, 当前{}星up率之和为{}'.format(stars, current[stars]))
+        print('up率设置过高, 当前{}星up率之和为{}'.format(stars, current[stars]))
+        return -1
     else:
         temp.uprate = uprate
+        return 1
 
 
 class Official(object):
@@ -164,14 +170,15 @@ STANDARD_POOL = makepool()
 
 
 class Draw(object):
-    def __init__(self):
+    """默认使用全干员无up池 参数pool可自定义池子"""
+    def __init__(self, pool=None):
         self.count_no_6 = 0
         self.count_no_5 = 0
         self.debug = False
+        self.pool = pool or STANDARD_POOL
 
-    def draw(self, times=1, pool=None):
-        if pool is None:
-            pool = STANDARD_POOL
+    def draw(self, times=1):
+        pool = self.pool
         pool6 = {}
         pool5 = {}
         pool4 = {}
@@ -279,7 +286,7 @@ class Draw(object):
         # 保底考虑直接重抽10次 只在10连抽时触发
         if times == 10 and not (count6 + count5 + count4):
             # print("保底机制使您免收紫气东来困扰 1次")
-            return self.draw(10, pool)
+            return self.draw(times=10)
         else:
             self.count_no_5 += temp5
             self.count_no_6 += temp6
@@ -311,7 +318,7 @@ if __name__ == '__main__':
                 print("亲亲建议您输入0-1000的数量呢(呕)")
                 continue
             print('\n')
-            print(d.draw(numbers, STANDARD_POOL), '\n')
+            print(d.draw(times=numbers), '\n')
     else:
         d.debug = True
         print(d.draw())
